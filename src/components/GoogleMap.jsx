@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { fetchPhotosInRegion } from '../api/photo';
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import { fetchPhotosInArea } from '../api/photo';
 
 const libraries = ['places']; 
 
@@ -20,6 +20,7 @@ const GoogleMapComponent = ({ photos, center }) => {
   });
 
   const [mapInstance, setMapInstance] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   const onLoad = useCallback(map => {
     setMapInstance(map);
@@ -45,7 +46,7 @@ const GoogleMapComponent = ({ photos, center }) => {
         max_lon: ne.lng(),
     };
     
-    const data = await fetchPhotosInRegion(bbox);
+    const data = await fetchPhotosInArea(bbox);
     photos.setPhotos(data);
   }, [mapInstance, photos]);
 
@@ -68,10 +69,26 @@ const GoogleMapComponent = ({ photos, center }) => {
           key={photo.id}
           position={{ lat: photo.lat, lng: photo.lon }}
           title={photo.name}
+          onClick={() => setSelectedPhoto(photo)}
         />
       ))}
+
+      {/* RENDEROWANIE DYMKA (InfoWindow) */}
+{selectedPhoto && (
+        <InfoWindow
+          position={{ lat: selectedPhoto.lat, lng: selectedPhoto.lon }}
+          onCloseClick={() => {
+            setSelectedPhoto(null);
+          }}
+        >
+          <div style={{ color: 'black', padding: '5px' }}>
+            <h3 style={{ margin: '0 0 5px 0' }}>{selectedPhoto.name}</h3>
+            <p style={{ margin: 0 }}>ID: {selectedPhoto.id}</p>
+            <p style={{ margin: 0, fontSize: '0.8em' }}>Plik: {selectedPhoto.filename}</p>
+          </div>
+        </InfoWindow>
+      )}
     </GoogleMap>
   );
 };
-
 export default GoogleMapComponent;
