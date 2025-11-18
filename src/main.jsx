@@ -1,10 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
+
+// import App from './AppL.jsx' // Aplikacja Leaflet
+import App from './AppG.jsx' // Aplikacja Google Maps
+// import AppM from './AppM.jsx' // Aplikacja MapLibre
+
+const ActiveApp = App;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    {/* Renderujemy wybraną aplikację */}
+    <ActiveApp />
   </React.StrictMode>,
 )
