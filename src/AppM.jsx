@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import LeafletMap from './components/LeafletMap';
-import { createTestPhoto } from './api/photo';
+import MapLibreMap from './components/MapLibreMap';
+import { createTestPhoto } from './api/photo'; 
 
 const TEST_PHOTO_DATA = {
     name: "Testowy Zamek (Wawel)",
@@ -17,7 +17,7 @@ function App() {
         loading: false,
     });
     
-    const center = { lat: 50.061, lon: 19.937 }; // Kraków - centrum
+    const center = { lat: 50.061, lon: 19.937 };  // Kraków - centrum
 
     const handleAddPhoto = async () => {
         const result = await createTestPhoto(TEST_PHOTO_DATA);
@@ -28,14 +28,14 @@ function App() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Prototype Geo-App (Leaflet)</h1>
+            <h1>Prototype Geo-App (MapLibre)</h1>
             <p>Backend: FastAPI at http://127.0.0.1:8001 | Frontend: Vite/React at 5173</p>
             
             <button onClick={handleAddPhoto} style={{ marginBottom: '20px', padding: '10px' }}>
                 + Add photo (POST)
             </button>
 
-            <LeafletMap photos={photosState} center={center} />
+            <MapLibreMap photos={photosState} center={center} />
             
             <hr />
             <h2>Downloaded photos (IDS):</h2>

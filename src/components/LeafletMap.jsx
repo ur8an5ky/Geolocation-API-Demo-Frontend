@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { fetchPhotosInArea } from '../api/photo';
 
-// Naprawia ikonę Markera, ponieważ bundlery Reacta mają z tym problem
 import L from 'leaflet';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -11,7 +10,6 @@ L.Icon.Default.mergeOptions({
     iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
     shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
-// Koniec naprawy
 
 const MapEventController = ({ setPhotos }) => {
     const map = useMap();
@@ -53,16 +51,13 @@ const LeafletMap = ({ photos, center }) => {
             scrollWheelZoom={true}
             style={{ height: '80vh', width: '100%' }}
         >
-            {/* Warstwa kafelków OpenStreetMap */}
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             
-            {/* Komponent kontrolujący logikę API */}
             <MapEventController setPhotos={photos.setPhotos} />
 
-            {/* Renderowanie Markerów */}
             {photos.data.map(photo => (
                 <Marker key={photo.id} position={[photo.lat, photo.lon]}>
                     <Popup>
